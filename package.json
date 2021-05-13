@@ -1,0 +1,25 @@
+{
+  "name": "javarunner",
+  "version": "1.0.0",
+  "description": "an alternative of nodemon for java, hot reload app in java.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodemon alternative for java",
+    "javarunner",
+    "java"
+  ],
+  "author": "spidey52",
+  "license": "ISC",
+  "bin": {
+    "javarunner": "index.js"
+  },
+  "dependencies": {
+    "caporal": "^1.4.0",
+    "chalk": "^1.1.3",
+    "chokidar": "^3.5.1",
+    "lodash.debounce": "^4.0.8"
+  }
+}
