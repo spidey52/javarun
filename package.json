@@ -1,6 +1,6 @@
 {
   "name": "javarun",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "an alternative of nodemon for java, hot reload app in java.",
   "main": "index.js",
   "scripts": {
