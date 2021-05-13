@@ -1,5 +1,5 @@
 {
-  "name": "javarunner",
+  "name": "javarun",
   "version": "1.0.0",
   "description": "an alternative of nodemon for java, hot reload app in java.",
   "main": "index.js",
@@ -13,8 +13,12 @@
   ],
   "author": "spidey52",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spidey52/javrun.git"
+  },
   "bin": {
-    "javarunner": "index.js"
+    "javarun": "index.js"
   },
   "dependencies": {
     "caporal": "^1.4.0",
