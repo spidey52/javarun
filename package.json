@@ -1,6 +1,6 @@
 {
   "name": "javarun",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "an alternative of nodemon for java, hot reload app in java.",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/spidey52/javrun.git"
+    "url": "https://github.com/spidey52/javarun.git"
   },
   "bin": {
     "javarun": "index.js"

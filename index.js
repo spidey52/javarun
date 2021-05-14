@@ -4,54 +4,47 @@ const debounce = require('lodash.debounce');
 const chokidar = require('chokidar');
 const program = require('caporal');
 const fs = require('fs');
-const { exec } = require('child_process');
-const { promisify } = require('util')
-const chalk = require('chalk')
+const path = require('path')
+const { compileJava, compilePython, compileNode } = require('./utils')
 
-
-const pexec = promisify(exec)
-
-const compileFile = async (filename) => {
-  try {
-    console.log(chalk.green('[loading the program]'))
-    await pexec(`javac ${filename}`)
-    const follow = await pexec(`java ${filename.split('.')[0]}`)
-    console.log(chalk.green('[running the program]'))
-    console.log(follow.stdout)
-  } catch (error) {
-    console.log(chalk.red('[error in loading the program]'))
-    console.log(chalk.red('[error in running the program]'))
-    console.error(chalk.red(error.stderr))
-  }
-  console.log(chalk.green('[endingthe program]'))
-  console.log(chalk.green('>>> watching for file changes...'))
-}
+const supportedFile = ['.js', '.java', '.py']
 
 
 program
   .version('0.0.1')
   .argument('<filename>', 'Name of a file to execute')
   .action(async ({ filename }) => {
-    const name = filename
+    const name = {
+      filename: filename, ref: null
+    };
+
+    const fileType = path.extname(name.filename);
+    if (!supportedFile.includes(fileType)) throw new Error(`Filetype of ${fileType} not supported.`)
+
 
     try {
-      await fs.promises.access(name);
+      await fs.promises.access(name.filename);
     } catch (err) {
-      throw new Error(`Could not find the file ${name}`);
+      throw new Error(`Could not find the file ${name.filename}`);
     }
+
     const start = debounce(() => {
-      compileFile(name)
+      if (fileType === '.java') {
+        compileJava(name);
+      } else if (fileType === '.js') {
+        compileNode(name);
+      } else if (fileType === '.py') {
+        compilePython(name);
+      }
+
     }, 100);
 
     chokidar
-      .watch('*.java')
+      .watch(`*${fileType}`)
       .on('add', start)
       .on('change', start)
       .on('unlink', start);
   });
 
 program.parse(process.argv);
-
-
-
 
