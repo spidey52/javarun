@@ -7,6 +7,15 @@ const fs = require('fs');
 const path = require('path')
 const { compileJava, compilePython, compileNode } = require('./utils')
 
+const readline = require('readline');
+const chalk = require('chalk');
+
+
+
+const msg = chalk.green('[javarun] press rs to restart: \n')
+
+
+
 const supportedFile = ['.js', '.java', '.py']
 
 
@@ -29,6 +38,7 @@ program
     }
 
     const start = debounce(() => {
+
       if (fileType === '.java') {
         compileJava(name);
       } else if (fileType === '.js') {
@@ -36,6 +46,19 @@ program
       } else if (fileType === '.py') {
         compilePython(name);
       }
+
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
+      rl.on('line', (answer) => {
+        if (answer === 'rs') {
+          rl.close();
+          start();
+        }
+      })
+
 
     }, 100);
 
