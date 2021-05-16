@@ -8,12 +8,6 @@ const path = require('path')
 const { compileJava, compilePython, compileNode } = require('./utils')
 
 const readline = require('readline');
-const chalk = require('chalk');
-
-
-
-const msg = chalk.green('[javarun] press rs to restart: \n')
-
 
 
 const supportedFile = ['.js', '.java', '.py']
@@ -24,7 +18,7 @@ program
   .argument('<filename>', 'Name of a file to execute')
   .action(async ({ filename }) => {
     const name = {
-      filename: filename, ref: null
+      filename: filename, ref: null,
     };
 
     const fileType = path.extname(name.filename);
@@ -47,18 +41,24 @@ program
         compilePython(name);
       }
 
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-      });
+      name.ref.on('exit', () => {
 
-      rl.on('line', (answer) => {
-        if (answer === 'rs') {
-          rl.close();
-          start();
+        if (name.ref.exitCode === 0) {
+
+          const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          });
+
+          rl.on('line', (answer) => {
+            if (answer === 'rs') {
+              rl.close();
+              start();
+            }
+          })
+
         }
       })
-
 
     }, 100);
 
