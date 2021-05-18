@@ -31,16 +31,16 @@ program
       throw new Error(`Could not find the file ${name.filename}`);
     }
 
-    const start = debounce(() => {
+    const start = debounce(async () => {
 
       if (fileType === '.java') {
-        compileJava(name);
+        await compileJava(name);
       } else if (fileType === '.js') {
-        compileNode(name);
+        await compileNode(name);
       } else if (fileType === '.py') {
-        compilePython(name);
+        await compilePython(name);
       } else if (fileType === '.cpp') {
-        compileCpp(name);
+        await compileCpp(name);
       }
 
       name.ref && name.ref.on('exit', () => {
