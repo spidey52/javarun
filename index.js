@@ -5,12 +5,12 @@ const chokidar = require('chokidar');
 const program = require('caporal');
 const fs = require('fs');
 const path = require('path')
-const { compileJava, compilePython, compileNode } = require('./utils')
+const { compileJava, compilePython, compileNode, compileCpp } = require('./utils')
 
 const readline = require('readline');
 
 
-const supportedFile = ['.js', '.java', '.py']
+const supportedFile = ['.js', '.java', '.py', '.cpp']
 
 
 program
@@ -39,9 +39,11 @@ program
         compileNode(name);
       } else if (fileType === '.py') {
         compilePython(name);
+      } else if (fileType === '.cpp') {
+        compileCpp(name);
       }
 
-      name.ref.on('exit', () => {
+      name.ref && name.ref.on('exit', () => {
 
         if (name.ref.exitCode === 0) {
 
